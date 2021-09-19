@@ -17,6 +17,8 @@ def addItemToJSON():
     except FileNotFoundError:
         jsonRaw = json.load(createJSONfile())
 
+    print('file created/exist')
+
     print('Enter type of location:')
     print("'web': Website location")
     print("'app': Local software to run")

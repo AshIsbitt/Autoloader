@@ -9,6 +9,7 @@ SAVED_FILE = 'autoloader.json'
 def runAutoLoad():
     pass
 
+
 # function to read JSON and print all options to screen
 def viewJSONDoc():
     with open(SAVED_FILE, 'r') as jsonFile:
@@ -19,14 +20,13 @@ def viewJSONDoc():
 
     main()
 
+
 # Function to append new item to JSON
 def addNewEntry():
     with open(SAVED_FILE, 'r') as jsonFile:
         jsonData = json.load(jsonFile)
-        print(jsonData)
 
-
-    print('Enter type of location:')
+    print('Enter location category:')
     print("'web': Website location")
     print("'app': Local software to run")
     print("'dir': Directory location to open in file explorer")
@@ -35,7 +35,7 @@ def addNewEntry():
 
     if newLocType.lower() not in ['web', 'app', 'dir']:
         print('Try again\n')
-        addItemToJSON()
+        addNewEntry()
 
     print("Enter location (If 'app' or 'dir', make sure you use absolute locations)")
     newLoc = input(">>> ")
@@ -50,9 +50,34 @@ def addNewEntry():
 
     main()
 
+
 # Function to remove item from JSON
 def removeEntry():
-    pass
+    viewJSONDoc()
+
+    print('Select category to remove from:')
+    print("'web': Website location")
+    print("'app': Local software to run")
+    print("'dir': Directory location to open in file explorer")
+
+    selectedCategory = input('>>> ')
+
+    if newLocType.lower() not in ['web', 'app', 'dir']:
+        print('Try again\n')
+        removeEntry()
+
+    print('\n')
+
+    with open(SAVED_FILE, 'r') as jsonFile:
+        jsonData = json.load(jsonFile)
+
+    for value in jsonData[selectedCategory]:
+        print(f'{value}: {jsonData[selectedCategory][value]}')
+
+    print('Select item by index:')
+    itemToRemove = pyplus.inputint(">>> ")
+
+    jsonData[selectedCategory].pop(itemToRemove)
 
 
 # Function to delete JSON page
@@ -65,7 +90,6 @@ def deleteJSON():
         os.remove(SAVED_FILE)
 
     sys.exit()
-
 
 
 # Create new JSON
@@ -115,6 +139,7 @@ def main():
 
         elif entry.lower() == 'x':
             print('Goodbye')
+            quit()
 
     except Exception as e:
         print(e)

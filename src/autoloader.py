@@ -14,8 +14,10 @@ def viewJSONDoc():
     with open(SAVED_FILE, 'r') as jsonFile:
         jsonData = json.load(jsonFile)
 
-    for key, value in jsonData:
-        print(key, value)
+    for key, value in jsonData.items():
+        print(f'{key}: {value}')
+
+    main()
 
 # Function to append new item to JSON
 def addNewEntry():
@@ -73,7 +75,7 @@ def createJSONFile():
     datadict['app'] = []
     datadict['dir'] = []
 
-    with open(SAVED_DATA, 'w') as JsonFile:
+    with open(SAVED_FILE, 'w') as JsonFile:
         json.dump(datadict, JsonFile)
 
 

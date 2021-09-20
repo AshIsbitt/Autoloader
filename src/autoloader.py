@@ -4,62 +4,44 @@ import json
 
 SAVED_FILE = 'autoloader.json'
 
-# Function to create JSON file
-def createJSONfile():
-    jsonFile = open(SAVED_FILE, 'x')
-    return jsonFile
+# Run function to open all stored location
 
-# Function to write to JSON
-def addItemToJSON():
-    try:
-        with open(SAVED_FILE, 'rb') as jsonFile:
-            jsonRaw = json.load(jsonFile)
-    except FileNotFoundError:
-        jsonRaw = json.load(createJSONfile())
 
-    print('file created/exist')
+def runAutoLoad():
+    pass
 
-    print('Enter type of location:')
-    print("'web': Website location")
-    print("'app': Local software to run")
-    print("'dir': Directory location to open in file explorer")
-
-    newLocType = input('>>> ')
-
-    if newLocType.lower() not in ['web', 'app', 'dir']:
-        print('Try again\n')
-        addItemToJSON()
-
-    print("Enter location (If 'app' or 'dir', make sure you use absolute locations)")
-    newLoc = input(">>> ")
-
-    jsonEntry = {f"{newLocType}": f"{newLoc}"}
-
-    jsonRaw.append(jsonEntry)
-
-    with open(SAVED_FILE, 'w') as jsonFile:
-        json.dump(jsonRaw)
-# Function to read/print out JSON
+# function to read JSON and print all options to screen
 def viewJSONDoc():
-    jsonRaw = json.loads(SAVED_FILE)
+    pass
 
-    for key, value in jsonRaw:
-        print(f'({key}), {value}')
+# Function to append new item to JSON
+def addNewEntry():
+    pass
 
-    print('\n')
+# Function to remove item from JSON
+def removeEntry():
+    pass
 
-# Function to open all listed locations in JSON
+# Function to delete JSON page
+def deleteJSON():
+    pass
 
 
 # Function for dashboard to give users input options
 def main():
     print('AUTOLOADER')
+
+    if not os.path.isfile(SAVED_FILE):
+        createdFile = open(SAVED_FILE, 'x')
+        print('Initialising new document')
+
+
     print("Enter 'r' to run, or 'm' to manage stored locations. Enter 'x' to exit")
     entry = input(">>> ")
 
     try:
         if entry.lower() == 'r':
-            pass
+            runAutoLoad()
         elif entry.lower() == 'm':
             print('\nManage saved locations')
             print("'v': View saved locations")
@@ -72,20 +54,19 @@ def main():
             if manageEntry.lower() == 'v':
                 viewJSONDoc()
             elif manageEntry.lower() == 'a':
-                addItemToJSON()
+                addNewEntry()
             elif manageEntry.lower() == 'r':
-                pass
+                removeEntry()
             elif manageEntry.lower() == 'e':
-                pass
+                deleteJSON()
             elif manageEntry.lower() == 'x':
                 main()
 
-        elif entry.tolower() == 'x':
+        elif entry.lower() == 'x':
             print('Goodbye')
-            sys.exit
+
     except:
         print('Error')
-        sys.exit()
 
 if __name__ == '__main__':
     main()

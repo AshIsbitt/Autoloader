@@ -1,6 +1,7 @@
 import sys
 import os
 import json
+import pyinputplus as pyplus
 
 SAVED_FILE = 'autoloader.json'
 
@@ -12,8 +13,11 @@ def runAutoLoad():
 
 # function to read JSON and print all options to screen
 def viewJSONDoc():
-    pass
+    with open(SAVED_FILE) as jsonFile:
+        jsonData = json.load(jsonFile)
 
+    for key, value in jsonData:
+        pass
 # Function to append new item to JSON
 def addNewEntry():
     pass
@@ -24,8 +28,13 @@ def removeEntry():
 
 # Function to delete JSON page
 def deleteJSON():
-    pass
+    verifyFunc = pyplus.inputYesNo('Are you sure you want to delete the config file? ')
 
+    if verifyFunc == 'yes':
+        print('Deleting file...')
+        os.remove(SAVED_FILE)
+
+    sys.exit()
 
 # Function for dashboard to give users input options
 def main():

@@ -4,6 +4,7 @@ from typing import Sequence
 from typing import Optional
 import json
 import os
+import pyinputplus as pyplus
 
 SAVED_FILE = 'autoloader.json'
 
@@ -16,6 +17,9 @@ def createJSONFile():
     with open(SAVED_FILE, 'w') as JsonFile:
         json.dump(dataDict, JsonFile)
 
+def runAutoLoad():
+    pass
+
 def viewJSONDoc():
     with open(SAVED_FILE, 'r') as jsonFile:
         jsonData = json.load(jsonFile)
@@ -23,8 +27,37 @@ def viewJSONDoc():
     for key, value in jsonData.items():
         print(f'{key}: {value}')
 
-def runAutoLoad():
-    print('Running')
+
+def eraseJSONFile():
+    verify = pyplus.inputYesNo(
+        """Are you sure you want to completely erase the config file.
+This action cannot be undone. """)
+
+    if verify == 'yes':
+        print('Deleting config...')
+        os.remove(SAVED_FILE)
+
+def addItemToJson(category, item):
+    with open(SAVED_FILE, 'r') as jsonFile:
+        jsonData = json.load(jsonFile)
+
+    jsonData[category].append(item)
+
+    with open(SAVED_FILE, 'w') as jsonFile:
+        json.dump(jsonData, jsonFile)
+
+    return(f'{item} added to {category} category')
+
+def removeItemFromJson(category, item):
+    with open(SAVED_FILE, 'r') as jsonFile:
+        jsonData = json.load(jsonFile)
+
+    jsonData[category].remove(item)
+
+    with open(SAVED_FILE, 'w') as jsonFile:
+        json.dump(jsonData, jsonFile)
+
+    return(f'{item} removed from {category} category')
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
     if not os.path.isfile(SAVED_FILE):
@@ -35,19 +68,19 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     subparser = parser.add_subparsers(dest='command')
 
     # Single command parsers
-    runParser = subparser.add_parser('run')
-    viewParser = subparser.add_parser('view')
-    eraseParser = subparser.add_parser('erase')
+    runParser = subparser.add_parser('run', help='Execute all saved locations in Autoloader')
+    viewParser = subparser.add_parser('view', help='Display locations in config file')
+    eraseParser = subparser.add_parser('erase', help='Erase config file')
 
     # Parsers requiring arguments
-    addParser = subparser.add_parser('add')
-    remParser = subparser.add_parser('rem')
+    addParser = subparser.add_parser('add', help='Add item to config')
+    remParser = subparser.add_parser('rem', help='Remove item from config')
 
-    addParser.add_argument('-c', '--category', type=str, required=True)
-    addParser.add_argument('-l', '--location', type=str, required=True)
+    addParser.add_argument('-c', '--category', type=str, required=True, help="Type of location to save. Options are 'web', 'app' 'dir'")
+    addParser.add_argument('-l', '--location', type=str, required=True, help='Location ie website or file location to add')
 
-    remParser.add_argument('-c', '--category', type=str, required=True)
-    remParser.add_argument('-l', '--location', type=str, required=True)
+    remParser.add_argument('-c', '--category', type=str, required=True, help="Type of location to remove. Options are 'web', 'app' 'dir'")
+    remParser.add_argument('-l', '--location', type=str, required=True, help='Location ie website or file location to remove')
 
     # Get arguments given
     args = parser.parse_args(argv)
@@ -60,11 +93,17 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     elif args.command == 'view':
         viewJSONDoc()
     elif args.command == 'erase':
-        pass
+        eraseJSONFile()
     elif args.command == 'add':
-        pass
+        if args.category not in ['web', 'app', 'dir']:
+            print("Invalid category. Options: 'web', 'app', 'dir'")
+        else:
+            print(addItemToJson(args.category, args.location))
     elif args.command == 'rem':
-        pass
+        if args.category not in ['web', 'app', 'dir']:
+            print("Invalid category. Options: 'web', 'app', 'dir'")
+        else:
+            print(removeItemFromJson(args.category, args.location))
 
 if __name__=='__main__':
     exit(main())

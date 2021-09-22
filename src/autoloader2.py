@@ -3,11 +3,34 @@ import pprint as pp
 from typing import Sequence
 from typing import Optional
 import json
+import os
+
+SAVED_FILE = 'autoloader.json'
+
+def createJSONFile():
+    dataDict = {}
+    dataDict['web'] = []
+    dataDict['app'] = []
+    dataDict['loc'] = []
+
+    with open(SAVED_FILE, 'w') as JsonFile:
+        json.dump(dataDict, JsonFile)
+
+def viewJSONDoc():
+    with open(SAVED_FILE, 'r') as jsonFile:
+        jsonData = json.load(jsonFile)
+
+    for key, value in jsonData.items():
+        print(f'{key}: {value}')
 
 def runAutoLoad():
     print('Running')
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
+    if not os.path.isfile(SAVED_FILE):
+        createJSONFile()
+        print('Creating new config file')
+
     parser = argparse.ArgumentParser()
     subparser = parser.add_subparsers(dest='command')
 
@@ -35,10 +58,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     if args.command == 'run':
         runAutoLoad()
     elif args.command == 'view':
-        pass
+        viewJSONDoc()
     elif args.command == 'erase':
-        pass
-    elif args.command == 'view':
         pass
     elif args.command == 'add':
         pass

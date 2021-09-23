@@ -7,6 +7,7 @@ import os
 import pyinputplus as pyplus
 import webbrowser
 import platform
+import subprocess
 
 SAVED_FILE = 'autoloader.json'
 
@@ -24,13 +25,18 @@ def runAutoLoad():
         jsonData = json.load(jsonFile)
 
     for value in jsonData['web']:
-        webbrowser.open(str(value))
+        print(value)
+        webbrowser.open(f'https://{value}')
 
     for value in jsonData['app']:
-        if str(platform.platform())[0:4] == 'macOS':
-            subprocess.Popen('open', value)
+        if str(platform.platform())[0:5] == 'macOS':
+            subprocess.Popen(['open', f'/Applications/{value}'])
         elif str(platform.platform())[0:6] == 'Windows':
             subprocess.Popen('explorer "' + value + '"')
+        else:
+            print("Please submit the following message on the github repo: https://github.com/AshIsbitt/Autoloader/issues")
+            print(f"Operating system not supported: {platform.platform()}")
+
 
     for value in jsonData['loc']:
         pass

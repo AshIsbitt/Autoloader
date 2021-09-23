@@ -5,6 +5,8 @@ from typing import Optional
 import json
 import os
 import pyinputplus as pyplus
+import webbrowser
+import platform
 
 SAVED_FILE = 'autoloader.json'
 
@@ -18,7 +20,20 @@ def createJSONFile():
         json.dump(dataDict, JsonFile)
 
 def runAutoLoad():
-    pass
+    with open(SAVED_FILE, 'r') as jsonFile:
+        jsonData = json.load(jsonFile)
+
+    for value in jsonData['web']:
+        webbrowser.open(str(value))
+
+    for value in jsonData['app']:
+        if str(platform.platform())[0:4] == 'macOS':
+            subprocess.Popen('open', value)
+        elif str(platform.platform())[0:6] == 'Windows':
+            subprocess.Popen('explorer "' + value + '"')
+
+    for value in jsonData['loc']:
+        pass
 
 def viewJSONDoc():
     with open(SAVED_FILE, 'r') as jsonFile:
@@ -107,3 +122,4 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
 
 if __name__=='__main__':
     exit(main())
+

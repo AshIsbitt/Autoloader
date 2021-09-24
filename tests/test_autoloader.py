@@ -1,10 +1,11 @@
-# Testing suite devised using TDD
+# Testing suite devised
 
 import unittest
-import src.autoloader
+from ..src.autoloader import *
 
 class TestAutoloader(unittest.TestCase):
-    pass
+    def test_createJSONFile(self):
+        self.assertTrue(os.path.exists('Autoloader/src/autoloader.json'))
 
 if __name__ == '__main__':
     unittest.main()

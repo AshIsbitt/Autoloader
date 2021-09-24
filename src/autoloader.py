@@ -34,8 +34,10 @@ def runAutoLoad():
             if value[-4:] != '.app':
                 value += '.app'
 
-            subprocess.Popen(['open', f'/System/Applications/{value}'])
-            subprocess.Popen(['open', f'/Users/{gp.getuser()}/Applications/{value}'])
+            if os.path.exists(f'/System/Applications/{value}'):
+                subprocess.Popen(['open', f'/System/Applications/{value}'])
+            else:
+                subprocess.Popen(['open', f'/Applications/{value}'])
 
         elif str(platform.platform())[0:6] == 'Windows':
             subprocess.Popen('explorer "' + value + '"')

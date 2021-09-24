@@ -1,7 +1,7 @@
 # Testing suite devised
 
 import unittest
-from ..src.autoloader import *
+from ..autoloader.autoloader import *
 
 class TestAutoloader(unittest.TestCase):
     def test_createJSONFile(self):

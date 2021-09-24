@@ -8,6 +8,7 @@ import pyinputplus as pyplus
 import webbrowser
 import platform
 import subprocess
+import getpass as gp
 
 SAVED_FILE = 'autoloader.json'
 
@@ -15,7 +16,7 @@ def createJSONFile():
     dataDict = {}
     dataDict['web'] = []
     dataDict['app'] = []
-    dataDict['loc'] = []
+    dataDict['dir'] = []
 
     with open(SAVED_FILE, 'w') as JsonFile:
         json.dump(dataDict, JsonFile)
@@ -30,7 +31,12 @@ def runAutoLoad():
 
     for value in jsonData['app']:
         if str(platform.platform())[0:5] == 'macOS':
-            subprocess.Popen(['open', f'/Applications/{value}'])
+            if value[-4:] != '.app':
+                value += '.app'
+
+            subprocess.Popen(['open', f'/System/Applications/{value}'])
+            subprocess.Popen(['open', f'/Users/{gp.getuser()}/Applications/{value}'])
+
         elif str(platform.platform())[0:6] == 'Windows':
             subprocess.Popen('explorer "' + value + '"')
         else:
@@ -38,8 +44,8 @@ def runAutoLoad():
             print(f"Operating system not supported: {platform.platform()}")
 
 
-    for value in jsonData['loc']:
-        pass
+    for value in jsonData['dir']:
+        subprocess.call(['open', '-R', value])
 
 def viewJSONDoc():
     with open(SAVED_FILE, 'r') as jsonFile:

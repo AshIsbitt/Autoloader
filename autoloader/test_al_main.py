@@ -1,11 +1,13 @@
-# Testing suite devised
+# Testing suite devised for al_main using unittest
 
 import unittest
-from ..autoloader.autoloader import *
+import al_main
 
 class TestAutoloader(unittest.TestCase):
+
+    # Test JSON file creation
     def test_createJSONFile(self):
-        self.assertTrue(os.path.exists('Autoloader/src/autoloader.json'))
+        self.assertEquals()
 
 if __name__ == '__main__':
     unittest.main()

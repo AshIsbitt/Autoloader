@@ -10,7 +10,7 @@ import platform
 import subprocess
 import getpass as gp
 
-SAVED_FILE = 'autoloader.json'
+SAVED_FILE = 'autoloader_config.json'
 
 def createJSONFile():
     dataDict = {}

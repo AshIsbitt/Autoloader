@@ -56,6 +56,7 @@ def viewJSONDoc():
     for key, value in jsonData.items():
         print(f'{key}: {value}')
 
+    return jsonData.items()
 
 def eraseJSONFile():
     verify = pyplus.inputYesNo(

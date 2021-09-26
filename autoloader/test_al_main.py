@@ -24,5 +24,13 @@ class TestAutoloader(unittest.TestCase):
         mockedFunction()
 
         mockedFunction.assert_called()
+
+    # test adding item to json via mocking
+
+    # test removing item from json via mocking
+
+    # Test main by testing various function calls within the func
+        # Test erasing file by checking function call from main()
+
 if __name__ == '__main__':
     unittest.main()

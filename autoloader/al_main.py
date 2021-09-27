@@ -116,7 +116,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     args = parser.parse_args(argv)
 
     # print given arguments
-    pp.pprint(vars(args))
+#    pp.pprint(vars(args))
 
     if args.command == 'run':
         runAutoLoad()

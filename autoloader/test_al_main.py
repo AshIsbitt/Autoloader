@@ -2,7 +2,7 @@
 
 import unittest
 import unittest.mock
-import al_main
+import aload
 import os
 import json
 import io

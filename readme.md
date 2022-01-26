@@ -12,7 +12,8 @@ Also make sure you install the python requirements as well.
 `pip3 install requirements.txt`
 
 ### How to use
-Each command starts with `python3 al_main.py ...` in the terminal.
+Each command starts with `./aload.py ...` in the terminal.
+It's suggested that you set this as an alias to something shorter such as `al` for user efficiency
 
 * `run` - Autoloader opens the configured locations in the default web browser/file browser, and opens configured software.
 * `view` - Displays all configured apps, directory locations, and websites

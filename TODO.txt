@@ -1,0 +1,4 @@
+* rewrite tests in pytest
+* fix shebang/executable
+* figure out how to distribute without requirements.txt 
+* refactor with better coding conventions
